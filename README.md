@@ -1,4 +1,4 @@
-# **MYFLIX: Your Ultimate Cinematic Destination**
+# **MYFLIX: Movie Reviw and Rating Site**
 
 **Important Note for Images:**
 For all images referenced within this README to display correctly (e.g., screenshots and UI elements), please ensure that all corresponding image files (such as `image_65db9a.png`, `image_656036.png`, `image_65d876.jpg`, etc.) are placed inside a subfolder named `images/` located in the root directory of your project repository.
