@@ -145,7 +145,7 @@ Once your account is set up and you're logged in (or even as a guest for publicl
         * The movie's runtime and original release details.
         * The overall MYFLIX rating (e.g., 8.8/10), reflecting its critical reception.
         * User-submitted reviews and testimonials (e.g., "Mind-bending and visually stunning. A true masterpiece of modern cinema." from "DreamExplorer") to gauge public opinion and find diverse perspectives.
-![image_alt]()
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss9.jpg)
 
 ### **C. Accessing Support and Legal Information**
 
@@ -154,31 +154,38 @@ MYFLIX places a high priority on user support and transparency, making all essen
 1.  **Step 10: Frequently Asked Questions (FAQ)**
     * **Goal**: To find quick, self-service answers to common queries about MYFLIX without needing direct support.
     * **How to Access**: Look for an "FAQ" link, usually located in the global footer or within a broader "Help" section (leading to `faq.html`).
-    * **Action**: As clearly demonstrated in ![Frequently Asked Questions (FAQ)](images/image_65d4d7.png), this page provides structured answers to typical questions such as "What is MyFlix?", "How much does MyFlix cost?", "Where can I watch?", and "How do I sign up for MyFlix?". It serves as an immediate resource for common operational inquiries.
+    * **Action**: As clearly demonstrated in, this page provides structured answers to typical questions such as "What is MyFlix?", "How much does MyFlix cost?", "Where can I watch?", and "How do I sign up for MyFlix?". It serves as an immediate resource for common operational inquiries.
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss10.jpg)
 
 2.  **Step 11: Understanding Terms of Use**
     * **Goal**: To meticulously review the comprehensive rules, guidelines, and contractual obligations governing your use of the MYFLIX platform.
     * **How to Access**: Locate the "Terms of Use" link, typically found within the global footer of the website (leading to `terms_of_use.html`).
-    * **Action**: On this critical page, as exemplified by ![Terms of Use Document](images/image_65d498.png), you can read and understand important aspects such as the acceptance of terms, detailed descriptions of service, user conduct guidelines, intellectual property rights, and various disclaimers. The document typically indicates its last update date (e.g., June 15, 2025).
+    * **Action**: On this critical page, as exemplified by, you can read and understand important aspects such as the acceptance of terms, detailed descriptions of service, user conduct guidelines, intellectual property rights, and various disclaimers. The document typically indicates its last update date (e.g., June 15, 2025).
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss11i.jpg)
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss11ii.jpg)
 
 3.  **Step 12: Reviewing Legal Notices**
     * **Goal**: To understand the legal aspects pertaining to content, intellectual property, and compliance information.
     * **How to Access**: Find the "Legal Notices" link, usually situated in the global footer (leading to `legal_notices.html`).
-    * **Action**: This page, as clearly shown in ![Legal Notices Document](images/image_65d45f.png), provides crucial legal information relevant to the platform's operation and content, including details about copyright, trademarks, third-party notices, and various legal disclaimers. It also specifies its last update date (e.g., June 15, 2025).
+    * **Action**: This page, as clearly shown in, provides crucial legal information relevant to the platform's operation and content, including details about copyright, trademarks, third-party notices, and various legal disclaimers. It also specifies its last update date (e.g., June 15, 2025).
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss12.jpg)
+![image_alt](https://github.com/Jay00101/MyFlix/blob/c9ae39e4b23e59f8aa5805e9e068649e3ccf7088/screenshots/ss12ii.jpg)
 
 4.  **Step 13: Accessing the Comprehensive Help Centre**
     * **Goal**: To seek detailed guides, extensive troubleshooting steps, and in-depth support for various platform-related issues.
     * **How to Access**: Click the "Help Centre" link, typically located prominently in the global footer or within a dedicated "Help" section in the main navigation (leading to `help_centre.html`).
-    * **Action**: This central hub, as comprehensively captured in ![Help Centre Overview](images/image_65d439.png), offers extensive resources including:
+    * **Action**: This central hub, as comprehensively captured in, offers extensive resources including:
         * Step-by-step quick start guides for signing up and setting up MYFLIX on various devices (TV, Mobile Apps, Game Consoles).
         * Detailed information on billing and account management.
         * Practical troubleshooting tips for common streaming issues.
-        * Transparent explanations on "How Our Service Works" and "Our Rating System," as further detailed in ![How Our Service Works & Key Features](images/image_65d7dd.png).
+![image_alt](https://github.com/Jay00101/MyFlix/blob/2da83a030adc2bf11e6baf48bd078e2242685ad7/screenshots/ss13.jpg)
 
 5.  **Step 14: Understanding the Privacy Policy**
     * **Goal**: To learn precisely how MYFLIX collects, utilizes, shares, and protects your personal data.
     * **How to Access**: Locate the "Privacy Policy" link, which is consistently available in the global footer (leading to `privacy_policy.html`).
     * **Action**: On this vital page, as clearly depicted in ![Privacy Policy Document](images/image_65d133.png), you can thoroughly review MYFLIX's data collection practices, how your data is used internally, policies regarding data sharing with third parties, your rights concerning your personal data, the platform's cookie policies, and the security measures implemented to protect your information. The document usually states its last update date (e.g., June 15, 2025).
+![image_alt](https://github.com/Jay00101/MyFlix/blob/2da83a030adc2bf11e6baf48bd078e2242685ad7/screenshots/ss14i.jpg)
+![image_alt](https://github.com/Jay00101/MyFlix/blob/2da83a030adc2bf11e6baf48bd078e2242685ad7/screenshots/ss14ii.jpg)
 
 6.  **Step 15: Direct Contact & Support**
     * **Goal**: To reach out to MYFLIX support directly for personalized assistance that may not be covered in the FAQ or Help Centre.
@@ -187,7 +194,7 @@ MYFLIX places a high priority on user support and transparency, making all essen
         * Direct phone numbers for India (+91-800-919-1728) and International (+1 (555) 123-4567).
         * Clearly stated business hours (Monday - Friday, 10:00 AM - 8:00 PM IST).
         * An email address (`jaydineshnimje@gmail.com`) for detailed written inquiries, ensuring all your specific support needs can be addressed effectively.
-
+![image_alt](https://github.com/Jay00101/MyFlix/blob/2da83a030adc2bf11e6baf48bd078e2242685ad7/screenshots/ss15.jpg)
 ---
 
 ## **5. Roadmap**
