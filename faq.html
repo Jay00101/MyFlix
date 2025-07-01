@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - MyFlix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e50914;
+      --dark: #141414;
+      --light: #f3f3f3;
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+      transition: var(--transition);
+    }
+    
+    header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .search {
+      padding: 10px 15px;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      width: 250px;
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      transition: var(--transition);
+    }
+    
+    .search:focus {
+      background-color: rgba(255,255,255,0.3);
+      width: 300px;
+    }
+    
+    main {
+      padding: 120px 50px 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+    
+    .faq-container {
+      margin-top: 30px;
+    }
+    
+    .faq-item {
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .faq-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    
+    .faq-question {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    
+    .faq-question:hover {
+      color: var(--primary);
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      padding: 0 20px;
+      background: rgba(40,40,40,0.6);
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+      padding: 20px;
+    }
+    
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+    
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .back-btn:hover {
+      background-color: #f40612;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    footer {
+      background-color: #000;
+      padding: 30px 50px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    
+    .social-icons {
+      margin-bottom: 20px;
+    }
+    
+    .social-icons a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+    
+    .social-icons a:hover {
+      color: var(--primary);
+      transform: translateY(-5px);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .faq-item {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+    
+    .faq-item:nth-child(1) { animation-delay: 0.1s; }
+    .faq-item:nth-child(2) { animation-delay: 0.2s; }
+    .faq-item:nth-child(3) { animation-delay: 0.3s; }
+    .faq-item:nth-child(4) { animation-delay: 0.4s; }
+    .faq-item:nth-child(5) { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyFlix</div>
+    <form id="form">
+     
+    </form>
+  </header>
+
+  <main>
+    <h1>Frequently Asked Questions</h1>
+    
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          What is MyFlix?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>MyFlix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.</p>
+          <p>You can watch as much as you want, whenever you want without a single commercial – all for one low monthly price. There's always something new to discover and new TV shows and movies are added every week!</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          How much does MyFlix cost?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Watch MyFlix on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly fee. Plans range from $8.99 to $17.99 a month. No extra costs, no contracts.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          Where can I watch?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Watch anywhere, anytime. Sign in with your MyFlix account to watch instantly on the web at myflix.com from your personal computer or on any internet-connected device that offers the MyFlix app, including smart TVs, smartphones, tablets, streaming media players and game consoles.</p>
+          <p>You can also download your favorite shows with the iOS, Android, or Windows 10 app. Use downloads to watch while you're on the go and without an internet connection. Take MyFlix with you anywhere.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          How do I cancel?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>MyFlix is flexible. There are no pesky contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          What can I watch on MyFlix?
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+          <p>MyFlix has an extensive library of feature films, documentaries, TV shows, anime, award-winning MyFlix originals, and more. Watch as much as you want, anytime you want.</p>
+        </div>
+      </div>
+    </div>
+    
+    <a href="index.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+  </main>
+
+  <footer class="site-footer">
+    
+    <p>© 2025 MyFlix. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // FAQ toggle functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', () => {
+        item.classList.toggle('active');
+        
+        // Close other open items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item && otherItem.classList.contains('active')) {
+            otherItem.classList.remove('active');
+          }
+        });
+      });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('search');
+    
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.width = '300px';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      if (!searchInput.value) {
+        searchInput.style.width = '250px';
+      }
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
