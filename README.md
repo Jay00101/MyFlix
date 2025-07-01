@@ -104,7 +104,7 @@ Once your account is set up and you're logged in (or even as a guest for publicl
 
 2.  **Step 6: Exploring Curated Movie Categories**
     * **Goal**: To discover movies based on their current popularity, critical reception, or anticipated release.
-    * **How to Access**: These categories are prominently displayed and accessible both on the **Homepage** (`index.html`) and within the dedicated **Movies page** (`movies.html`).
+    * **How to Access**: These categories are prominently displayed and accessible both on the **Homepage** (`index.html`) and within the dedicated **Movies page** (`movies.html`)and for New & Popular Movies(newpopular.html)
     * **Action**: MYFLIX intelligently organizes its vast film library into intuitive categories to significantly simplify your search:
         * **Top Rated**: Browse a meticulously curated list of movies that have consistently received the highest user and critical ratings. This section is clearly visible on the main movies page.
         * **Trending Now**: See what films are currently generating the most buzz, actively being discussed, and gaining widespread viewership across the platform. This section is also prominently featured.
@@ -126,12 +126,12 @@ Once your account is set up and you're logged in (or even as a guest for publicl
 4.  **Step 8: Discovering What's Fresh (New & Popular Section)**
     * **Goal**: To quickly find the very latest additions to the MYFLIX library and other currently trending content across the platform.
     * **How to Access**: Click on the distinct **"New & Popular"** tab conveniently located in the main navigation bar (leading to `new_popular.html`).
-    * **Action**: This dedicated section, clearly illustrated in ![New & Popular Content](images/image_65d81e.jpg), aggregates the freshest content and currently trending titles. It offers a rapid and concise overview of what's recently added and what's currently generating significant buzz, keeping you fully up-to-date with the newest entertainment.
+    * **Action**: This dedicated section, clearly illustrated in ![New & Popular Content], aggregates the freshest content and currently trending titles. It offers a rapid and concise overview of what's recently added and what's currently generating significant buzz, keeping you fully up-to-date with the newest entertainment.
 
 5.  **Step 9: Viewing Detailed Movie Information**
     * **Goal**: To obtain comprehensive, in-depth information about a specific movie before deciding to watch it.
     * **How to Access**: Simply click on any **movie poster or movie title** from any Browse page (Homepage, Movies, New & Popular).
-    * **Action**: This action will seamlessly navigate you to the movie's dedicated detail page (for instance, the page for "Inception"). As beautifully illustrated by ![Inception Movie Details with Reviews](images/image_655fc1.jpg), on this page you can explore a wealth of information, including:
+    * **Action**: This action will seamlessly navigate you to the movie's dedicated detail page (for instance, the page for "Inception"). As beautifully illustrated by ![Inception Movie Details with Reviews], on this page you can explore a wealth of information, including:
         * A concise and engaging plot summary.
         * The complete list of its cast and crew.
         * The movie's runtime and original release details.
