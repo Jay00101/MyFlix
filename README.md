@@ -2,6 +2,7 @@
 Welcome to MYFLIX, your dedicated web-based platform designed for unparalleled movie review, rating, and discovery. Immerse yourself in an expansive world of cinema where community insights and critical perspectives converge. MYFLIX offers a rich, engaging interface for every cinephile, providing seamless navigation and intuitive interaction across all devices.
 
 As a robust application of modern frontend development, MYFLIX transcends simple content listing; it serves as a dynamic hub where users can effortlessly explore and contribute to vast collections of Top Rated, Trending Now, and Popular movies. Key features like the "Next Big Release" countdown keep anticipation high for upcoming blockbusters. At its core, MYFLIX empowers deep dives into detailed movie information, encompassing comprehensive synopses, esteemed cast lists, authentic user reviews, and precise rating metrics, offering a holistic understanding of each title. Personalized user profiles facilitate secure management of individual preferences and contributions. Furthermore, a robust Help Centre, extensive FAQs, and clear legal documentation (including Terms of Use, Privacy Policy, and Legal Notices) collectively foster a transparent and supportive environment. Discover new films, revisit timeless classics, contribute your voice, and stay informed about the latest industry developments—all within a fluid, responsive, and visually striking dark-themed interface. MYFLIX is engineered to be the definitive destination for cinematic engagement, transforming casual Browse into an immersive, informed, and interactive journey.
+![image_alt](https://github.com/Jay00101/MyFlix/blob/1906f184eef2fa2e419ac59a1a44bfc196c18d06/screenshots/sshomepage.jpg)
 
 ---
 
@@ -73,12 +74,13 @@ Your journey on MYFLIX often begins with establishing or accessing your personal
     * **Goal**: To create a new MYFLIX account for first-time users through (`register.html`).
     * **How to Access**: Navigate to the **Login page** (`login.html`). While a direct "Register" button might vary in exact placement on the page, the Login interface is the primary gateway for both returning and new users. Look for a clearly visible link or button, often labeled "Sign Up Now", "Create an Account", or "Join MYFLIX" from this context.
     * **Action**: Click on the registration option. You would then be prompted to provide necessary details, such as your desired username, email address, and a secure password, to set up your new MYFLIX account. This process is designed to be straightforward and secure, ensuring your future access to personalized features and content.
-    * ![image_alt]()
+    * ![image_alt](https://github.com/Jay00101/MyFlix/blob/1906f184eef2fa2e419ac59a1a44bfc196c18d06/screenshots/ss1.jpg)
 
 2.  **Step 2: User Login**
     * **Goal**: To securely access an existing MYFLIX account.
     * **How to Access**: Go directly to the **Login page** (`login.html`). This page is accessible via the "Login" link in the main navigation bar.
     * **Action**: On this page, you will find dedicated input fields for your registered email address and password. Enter these credentials accurately into the respective fields and then click the "Login" button. Upon successful authentication, the system will seamlessly redirect you to the MYFLIX homepage (`index.html`) or your last visited section, ready for you to explore content.
+    * ![image_alt](https://github.com/Jay00101/MyFlix/blob/1906f184eef2fa2e419ac59a1a44bfc196c18d06/screenshots/ss2.jpg)
 
 3.  **Step 3: Password Recovery (Forgot Password)**
     * **Goal**: To regain access to your account if you've forgotten your password.
