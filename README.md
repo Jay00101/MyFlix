@@ -70,9 +70,10 @@ This detailed section provides a step-by-step guide to navigating and utilizing 
 Your journey on MYFLIX often begins with establishing or accessing your personal account to unlock a personalized experience.
 
 1.  **Step 1: Registration / Sign-Up Process**
-    * **Goal**: To create a new MYFLIX account for first-time users.
+    * **Goal**: To create a new MYFLIX account for first-time users through (`register.html`).
     * **How to Access**: Navigate to the **Login page** (`login.html`). While a direct "Register" button might vary in exact placement on the page, the Login interface is the primary gateway for both returning and new users. Look for a clearly visible link or button, often labeled "Sign Up Now", "Create an Account", or "Join MYFLIX" from this context.
     * **Action**: Click on the registration option. You would then be prompted to provide necessary details, such as your desired username, email address, and a secure password, to set up your new MYFLIX account. This process is designed to be straightforward and secure, ensuring your future access to personalized features and content.
+    * ![image_alt]()
 
 2.  **Step 2: User Login**
     * **Goal**: To securely access an existing MYFLIX account.
