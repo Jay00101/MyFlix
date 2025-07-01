@@ -86,15 +86,17 @@ Your journey on MYFLIX often begins with establishing or accessing your personal
     * **Goal**: To regain access to your account if you've forgotten your password.
     * **How to Access**: From the **Login page** (`login.html`), locate and click the "Forgot Password?" link. This link is strategically placed to assist users who cannot recall their login credentials.
     * **Action**: Clicking this link will typically initiate a secure, guided process. You will likely be asked to enter your registered email address associated with your MYFLIX account. Instructions will then be securely sent to that email address to help you reset your password, ensuring that only you can regain access to your account.
+    * ![image_alt](https://github.com/Jay00101/MyFlix/blob/f7993abb901696d319a4006e48ae6f3d3d59d026/screenshots/ss3.jpg)
 
 4.  **Step 4: Managing Your Personal Profile**
     * **Goal**: To view and update your personal account information and manage your active session.
     * **How to Access**: After successfully logging in, navigate to your **Profile page** (`profile.html`). This is typically accessible by clicking on your "Profile" link or an "Account" icon prominently displayed in the main navigation bar.
-    * **Action**: On this dedicated page, as clearly depicted in ![My Profile Page](images/image_65dbd8.png), you are empowered to:
+    * **Action**: On this dedicated page, as clearly depicted in , you are empowered to:
         * Review your current username (e.g., "Jay Dinesh Nimje").
         * Update your contact email address (e.g., "jaydineshnimje@gmail.com").
         * Modify your registered phone number.
         * Crucially, you can also securely **"Logout"** from your current session by clicking the dedicated button, which is vital for protecting your account, especially when using public or shared computing devices.
+        * ![image_alt](https://github.com/Jay00101/MyFlix/blob/f7993abb901696d319a4006e48ae6f3d3d59d026/screenshots/ss4.jpg)
 
 ### **B. Navigating Content: Discovery and Exploration**
 
