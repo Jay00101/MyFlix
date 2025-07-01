@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Our Service | Unlimited Movies</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-light: #1E1E1E;
+            --primary: #00B4D8;
+            --text: #E1E1E1;
+            --text-light: #A0A0A0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        .info-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .info-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Rating System Section */
+        .rating-system {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+        
+        .rating-point {
+            text-align: center;
+            flex: 1;
+            padding: 0.5rem;
+        }
+        
+        .rating-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .poor { background-color: #e63946; color: white; }
+        .average { background-color: #f4a261; color: black; }
+        .good { background-color: #2a9d8f; color: white; }
+        .excellent { background-color: #457b9d; color: white; }
+        .masterpiece { background-color: #1d3557; color: white; }
+        
+        /* How It Works Section */
+        .steps-container {
+            display: grid;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .step {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .step-content p {
+            color: var(--text-light);
+        }
+        
+        /* Features Section */
+        .features {
+            margin: 4rem 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.8rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        /* Footer */
+        .info-footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: var(--text-light);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="info-header">
+            <h1>MY FLIX</h1>
+            <p>Your guide to our platform and rating system</p>
+        </header>
+        
+        <main>
+            <!-- Rating System Section -->
+            <section class="rating-system">
+                <h2 class="section-title">Our Rating System</h2>
+                <p>We use a simple 10-point scale to help you understand general audience reception of movies. These ratings are aggregated from various sources for informational purposes only.</p>
+                
+                <div class="rating-scale">
+                    <div class="rating-point">
+                        <div class="rating-number poor">1-2</div>
+                        <div>Poor</div>
+                    </div>
+                    <div class="rating-point">
+                        <div class="rating-number average">3-5</div>
+                        <div>Average</div>
+                    </div>
+                    <div class="rating-point">
+                        <div class="rating-number good">6-7</div>
+                        <div>Good</div>
+                    </div>
+                    <div class="rating-point">
+                        <div class="rating-number excellent">8-9</div>
+                        <div>Excellent</div>
+                    </div>
+                    <div class="rating-point">
+                        <div class="rating-number masterpiece">10</div>
+                        <div>Masterpiece</div>
+                    </div>
+                </div>
+                
+                <p><strong>Important:</strong> These ratings represent aggregated data, not our opinions. We don't provide written reviews or recommendations.</p>
+            </section>
+            
+            <!-- How It Works Section -->
+            <section>
+                <h2 class="section-title">How Our Service Works</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Browse Our Collection</h3>
+                            <p>Explore thousands of movies organized by genre, release year, and popularity. Use our search feature to find specific titles.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>View Movie Details</h3>
+                            <p>See comprehensive information including plot summary, cast, crew, and technical specifications. Ratings are shown for reference only.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Watch Instantly</h3>
+                            <p>Stream any movie in our collection immediately with no waiting time. Available in multiple quality options.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Create Your Watchlist</h3>
+                            <p>Save movies to your personal watchlist to enjoy later across all your devices.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Features Section -->
+            <section class="features">
+                <h2 class="section-title">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3>Extensive Library</h3>
+                        <p>Thousands of movies from classics to new releases across all genres.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Multi-Device Access</h3>
+                        <p>Watch on your phone, tablet, computer, or smart TV with seamless sync.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Family Friendly</h3>
+                        <p>Easy-to-use parental controls and content filtering options.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Offline Viewing</h3>
+                        <p>Download movies to watch later without an internet connection.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="info-footer">
+            <p>MY FLIX &copy; 2025 | We provide information, not opinions</p>
+            <p>All ratings are aggregated from public sources | Created by JAY</p>
+        </footer>
+    </div>
+</body>
+</html>

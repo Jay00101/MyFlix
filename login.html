@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFlix - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #e50914; /* Netflix Red */
+            --dark: #141414; /* Dark background */
+            --light: #f3f3f3; /* Light text */
+            --gray: #757575; /* Gray text */
+            --dark-gray: #222; /* Darker gray for footer */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Header Styles - Copied from index.html */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: var(--dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--light);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        #form { /* Search form, kept for consistency but hidden for login page */
+            display: none; /* Hide search bar on login page */
+        }
+        
+        /* Main Content & Login Container Styling */
+        main {
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+            margin-top: 80px; /* To account for fixed header */
+            padding: 40px 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            max-width: 450px; /* Slightly wider for better form spacing */
+            width: 100%;
+            padding: 50px; /* More padding for a substantial feel */
+            background: rgba(0, 0, 0, 0.75); /* Darker, less transparent background for focus */
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light); /* Ensure text within is light */
+        }
+
+        .login-container h2 {
+            font-size: 2.5rem; /* Larger heading */
+            color: var(--light); /* White heading for contrast */
+            margin-bottom: 30px; /* More space below heading */
+            text-align: left; /* Align left like Netflix login */
+        }
+
+        .input-group {
+            margin-bottom: 25px; /* More space between input groups */
+        }
+
+        .input-group label {
+            display: none; /* Hide labels, use placeholders for Netflix style */
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px; /* Larger padding */
+            font-size: 1.1rem; /* Larger font size */
+            border: none; /* No border for cleaner look */
+            border-radius: 5px;
+            background: #333; /* Darker input background */
+            color: var(--light);
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            background: #444; /* Slightly lighter on focus */
+        }
+
+        .input-group input::placeholder {
+            color: var(--gray); /* Gray placeholder text */
+        }
+
+        .captcha-group {
+            display: flex;
+            flex-direction: column; /* Stack label, captcha, and input vertically */
+            align-items: flex-start; /* Align elements to the left */
+        }
+
+        .captcha-group label {
+            display: block; /* Make label visible for captcha */
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 10px; /* Space between label and captcha display */
+        }
+
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Space between captcha display and input */
+            width: 100%; /* Take full width */
+            justify-content: space-between; /* Space out text and refresh icon */
+            background: #333; /* Darker background for captcha display */
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+
+        .captcha-text {
+            font-size: 1.5em; /* Larger captcha text */
+            font-weight: bold;
+            color: var(--primary); /* Red captcha text */
+            margin-right: 15px;
+            user-select: none; /* Prevent selection */
+            background-color: transparent; /* Remove background */
+            border: none; /* Remove border */
+            padding: 0;
+        }
+
+        .fa-sync-alt {
+            color: var(--gray); /* Sync icon in gray */
+            font-size: 1.5em; /* Larger icon */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .fa-sync-alt:hover {
+            color: var(--light); /* Lighter on hover */
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 16px 20px; /* Larger button */
+            font-size: 1.2rem; /* Larger font */
+            font-weight: 700; /* Bolder text */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 20px; /* More space above button */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #f40612; /* Slightly darker red on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .forgot-password, .signup-link {
+            text-align: center; /* Center these links */
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .forgot-password p, .signup-link p {
+            color: var(--gray); /* Gray text for surrounding paragraph */
+        }
+
+        .forgot-password a, .signup-link a {
+            color: var(--light); /* White link text */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover, .signup-link a:hover {
+            color: var(--primary); /* Red on hover */
+            text-decoration: underline;
+        }
+        
+        /* Footer Styles - Copied from index.html */
+        .site-footer {
+            background-color: transparent; /* Keep footer transparent if desired, or use var(--dark-gray) */
+            padding: 50px 4% 30px;
+            margin-top: auto; /* Push footer to the bottom */
+            text-align: center;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .footer-bottom .owner-name {
+            color: var(--light); /* Keep owner name distinct */
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                padding: 15px 4%;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-links {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide navigation links on smaller screens for a cleaner login page */
+            }
+            
+            .login-container {
+                margin: 30px auto;
+                padding: 30px;
+            }
+            
+            .login-container h2 {
+                font-size: 2rem;
+            }
+
+            .input-group input, button[type="submit"] {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+            
+            .captcha-text {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header id="main-header">
+    <div class="logo">MY<span>FLIX</span></div>
+    <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a> 
+        <a href="login.html" class="profile-icon">Login</a>
+        <a href="profile.html" class="profile-icon"><i class="fas fa-user"></i> Profile</a>
+    </nav>
+    <form id="form">
+        <input type="text" id="search" class="search" placeholder="Search for movies...">
+    </form>
+</header>
+
+<main>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form" onsubmit="return loginUser(event)">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="input-group captcha-group">
+                <label for="captcha-input">Captcha:</label>
+                <div class="captcha-container">
+                    <span id="captcha" class="captcha-text"></span>
+                    <i class="fas fa-sync-alt" onclick="refreshCaptcha()" title="Refresh Captcha"></i>
+                </div>
+                <input type="text" id="captcha-input" name="captcha" placeholder="Enter captcha" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="forgot-password">
+            <p><a href="forgot-password.html">Forgot Password?</a></p>
+        </div>
+
+        <div class="signup-link">
+            <p>Don't have an account? <a href="register.html">Sign up now</a></p>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-bottom">
+        <p>&copy; 2025 MyFlix created by <span class="owner-name"><u>JAY DINESH NIMJE</u></span>. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    let currentCaptcha;
+
+    function generateCaptcha() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+            captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return captcha;
+    }
+    
+    function refreshCaptcha() {
+        currentCaptcha = generateCaptcha();
+        document.getElementById('captcha').innerText = currentCaptcha;
+        document.getElementById('captcha-input').value = ''; // Clear input on refresh
+    }
+    
+    function validateCaptcha() {
+        const inputCaptcha = document.getElementById('captcha-input').value;
+        if (inputCaptcha !== currentCaptcha) {
+            alert("Incorrect captcha. Please try again.");
+            refreshCaptcha(); // Refresh the captcha
+            return false;
+        }
+        return true;
+    }
+
+    function loginUser(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const inputCaptcha = document.getElementById('captcha-input').value; // Get captcha input
+
+        // For demonstration, let's assume valid credentials are 'test'/'test'
+        // In a real application, you would fetch these from a database or API
+        const savedUsername = localStorage.getItem('username') || 'testuser'; // Fallback for testing
+        const savedPassword = localStorage.getItem('password') || 'testpass'; // Fallback for testing
+
+        if (username === savedUsername && password === savedPassword) {
+            if (validateCaptcha()) {
+                // If login and captcha are successful
+                // Store a simple indicator that the user is logged in
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username); // Save current user for profile page
+
+                alert('Login successful!');
+                window.location.href = "index.html"; // Redirect to the main content page
+            }
+        } else {
+            alert('Incorrect username or password. Please try again.');
+            refreshCaptcha(); // Refresh captcha on failed login attempt
+        }
+    }
+    
+    // Header scroll effect (optional for login page, but kept for consistency)
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('main-header');
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Initialize captcha on page load
+    window.onload = function() {
+        refreshCaptcha();
+        // You might want to check if a user is already logged in and redirect them
+        // if (localStorage.getItem('isLoggedIn') === 'true') {
+        //     window.location.href = 'index.html';
+        // }
+    };
+</script>
+</body>
+</html>

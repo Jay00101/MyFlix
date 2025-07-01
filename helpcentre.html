@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Centre - MyFlix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e50914;
+      --secondary: #0071eb;
+      --dark: #141414;
+      --light: #f3f3f3;
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .search {
+      padding: 10px 15px;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      width: 250px;
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      transition: var(--transition);
+    }
+    
+    main {
+      padding: 120px 50px 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+    
+    .help-container {
+      display: flex;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .sidebar {
+      width: 300px;
+      position: sticky;
+      top: 140px;
+      height: fit-content;
+    }
+    
+    .sidebar-nav {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .nav-item {
+      padding: 15px 20px;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-item i {
+      margin-right: 10px;
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+    
+    .nav-item:hover, .nav-item.active {
+      background-color: rgba(229, 9, 20, 0.2);
+      color: var(--primary);
+    }
+    
+    .nav-item.active {
+      border-left: 3px solid var(--primary);
+    }
+    
+    .content-area {
+      flex: 1;
+    }
+    
+    .help-section {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+    
+    .help-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .help-section h2 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .help-section h2 i {
+      margin-right: 10px;
+    }
+    
+    .faq-item {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    
+    .faq-question {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .faq-question::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .faq-question.active::after {
+      content: '-';
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      color: #ccc;
+      line-height: 1.6;
+    }
+    
+    .faq-answer.show {
+      max-height: 500px;
+    }
+    
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .quick-link {
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: var(--transition);
+      color: white;
+      text-decoration: none;
+    }
+    
+    .quick-link i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    .quick-link:hover {
+      transform: translateY(-5px);
+      background: rgba(229, 9, 20, 0.2);
+    }
+    
+    .contact-card {
+      background: linear-gradient(135deg, rgba(229,9,20,0.1) 0%, rgba(0,113,235,0.1) 100%);
+      border-radius: 10px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 1px solid rgba(229, 9, 20, 0.3);
+    }
+    
+    .contact-options {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .contact-option {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 8px;
+      padding: 20px;
+      transition: var(--transition);
+    }
+    
+    .contact-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .contact-option h4 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .contact-option h4 i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+    
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .back-btn:hover {
+      background-color: #f40612;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    footer {
+      background-color: #000;
+      padding: 30px 50px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .quick-link:hover i {
+      animation: float 2s ease infinite;
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .help-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyFlix</div>
+    <form id="form">
+      <input type="text" id="search" class="search" placeholder="Search help articles...">
+    </form>
+  </header>
+
+  <main>
+    <h1>Help Centre</h1>
+    
+    <div class="help-container">
+      <div class="sidebar">
+        <div class="sidebar-nav">
+          <div class="nav-item active" data-section="getting-started">
+            <i class="fas fa-rocket"></i> Getting Started
+          </div>
+          <div class="nav-item" data-section="troubleshooting">
+            <i class="fas fa-tools"></i> Troubleshooting
+          </div>
+          <div class="nav-item" data-section="account">
+            <i class="fas fa-user-circle"></i> Account Help
+          </div>
+          <div class="nav-item" data-section="billing">
+            <i class="fas fa-credit-card"></i> Billing
+          </div>
+          <div class="nav-item" data-section="streaming">
+            <i class="fas fa-tv"></i> Streaming Help
+          </div>
+          <div class="nav-item" data-section="contact">
+            <i class="fas fa-headset"></i> Contact Us
+          </div>
+        </div>
+      </div>
+      
+      <div class="content-area">
+        <!-- Getting Started Section -->
+        <section id="getting-started" class="help-section visible">
+          <h2><i class="fas fa-rocket"></i> Getting Started with MyFlix</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I sign up for MyFlix?</div>
+            <div class="faq-answer">
+              <p>Signing up for MyFlix is easy:</p>
+              <ol>
+                <li>Go to www.myflix.com/signup</li>
+                <li>Choose your preferred plan (Basic, Standard, or Premium)</li>
+                <li>Create your account by entering your email and creating a password</li>
+                <li>Enter your payment information</li>
+                <li>Start watching! You can stream immediately after signup</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">What devices can I use to watch MyFlix?</div>
+            <div class="faq-answer">
+              <p>MyFlix is available on a wide variety of devices including:</p>
+              <ul>
+                <li>Smart TVs (Samsung, LG, Sony, etc.)</li>
+                <li>Streaming devices (Roku, Apple TV, Chromecast, Fire TV)</li>
+                <li>Game consoles (PlayStation, Xbox)</li>
+                <li>Mobile devices (iOS, Android)</li>
+                <li>Tablets (iPad, Android tablets)</li>
+                <li>Web browsers (Chrome, Firefox, Safari, Edge)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">How many devices can stream simultaneously?</div>
+            <div class="faq-answer">
+              <p>The number of simultaneous streams depends on your subscription plan:</p>
+              <ul>
+                <li><strong>Basic:</strong> 1 device at a time</li>
+                <li><strong>Standard:</strong> 2 devices at a time</li>
+                <li><strong>Premium:</strong> 4 devices at a time</li>
+              </ul>
+              <p>You can upgrade or downgrade your plan at any time from your account settings.</p>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 40px;">Quick Start Guides</h3>
+          <div class="quick-links">
+            <a href="#" class="quick-link">
+              <i class="fas fa-tv"></i>
+              <span>Set up on your TV</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Mobile app guide</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-gamepad"></i>
+              <span>Game console setup</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-desktop"></i>
+              <span>Computer setup</span>
+            </a>
+          </div>
+        </section>
+        
+        <!-- Troubleshooting Section -->
+        <section id="troubleshooting" class="help-section">
+          <h2><i class="fas fa-tools"></i> Troubleshooting</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">Why is my video buffering or quality poor?</div>
+            <div class="faq-answer">
+              <p>If you're experiencing buffering or poor video quality, try these steps:</p>
+              <ol>
+                <li><strong>Check your internet speed:</strong> Run our <a href="speedtest.html">speed test</a> to ensure you meet the minimum requirements (3.0 Mbps for SD, 5.0 Mbps for HD, 25 Mbps for Ultra HD)</li>
+                <li><strong>Reduce other network activity:</strong> Pause downloads or other streaming activities on your network</li>
+                <li><strong>Restart your device:</strong> Power cycle your streaming device and router</li>
+                <li><strong>Adjust playback settings:</strong> In your account settings, try lowering the data usage preference</li>
+                <li><strong>Try a wired connection:</strong> If possible, connect your device directly to your router with an Ethernet cable</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">I can't sign in to my account. What should I do?</div>
+            <div class="faq-answer">
+              <p>If you're having trouble signing in:</p>
+              <ol>
+                <li>Make sure you're using the correct email address associated with your MyFlix account</li>
+                <li>Check that your password is entered correctly (passwords are case-sensitive)</li>
+                <li>Try resetting your password using the "Forgot Password" link</li>
+                <li>Clear your browser's cache and cookies, then try again</li>
+                <li>If you're still having issues, <a href="#contact">contact our support team</a></li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">Why is MyFlix not working on my device?</div>
+            <div class="faq-answer">
+              <p>If MyFlix isn't working on your device:</p>
+              <ul>
+                <li><strong>Check for updates:</strong> Make sure your MyFlix app and device software are up to date</li>
+                <li><strong>Reinstall the app:</strong> Uninstall and then reinstall the MyFlix app</li>
+                <li><strong>Check service status:</strong> Visit our <a href="#">Service Status</a> page to see if there are any outages</li>
+                <li><strong>Try another device:</strong> See if MyFlix works on a different device on the same network</li>
+              </ul>
+              <p>If the problem persists, please <a href="#contact">contact support</a> with details about your device and the issue you're experiencing.</p>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 40px;">Common Fixes</h3>
+          <div class="quick-links">
+            <a href="#" class="quick-link">
+              <i class="fas fa-wifi"></i>
+              <span>Wi-Fi issues</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>Error codes</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-volume-mute"></i>
+              <span>Audio problems</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-sync-alt"></i>
+              <span>App refresh</span>
+            </a>
+          </div>
+        </section>
+        
+        <!-- Account Help Section -->
+        <section id="account" class="help-section">
+          <h2><i class="fas fa-user-circle"></i> Account Help</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I change my account email or password?</div>
+            <div class="faq-answer">
+              <p>To update your account information:</p>
+              <ol>
+                <li>Sign in to your MyFlix account</li>
+                <li>Go to "Account" from the profile dropdown menu</li>
+                <li>Under "Membership & Billing", click "Update email" or "Change password"</li>
+                <li>Enter your new information and save changes</li>
+              </ol>
+              <p><strong>Note:</strong> Changing your email will not transfer your viewing history or recommendations to the new email address.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I set up parental controls?</div>
+            <div class="faq-answer">
+              <p>MyFlix offers robust parental controls:</p>
+              <ol>
+                <li>Go to "Account" and select "Parental Controls"</li>
+                <li>Enter your account password to access settings</li>
+                <li>Set maturity levels for profiles (Little Kids, Older Kids, Teens, Adults)</li>
+                <li>Optionally set a PIN to restrict access to certain maturity levels</li>
+                <li>You can also restrict specific titles regardless of maturity level</li>
+              </ol>
+              <p>These settings apply to all profiles on your account except the main account holder.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">Can I share my account with family members?</div>
+            <div class="faq-answer">
+              <p>Yes! MyFlix allows you to create up to 5 profiles on a single account:</p>
+              <ul>
+                <li>Each profile has its own viewing history and recommendations</li>
+                <li>You can set different maturity levels for each profile</li>
+                <li>Profiles can be customized with names and avatars</li>
+              </ul>
+              <p><strong>Note:</strong> While you can share your account with household members, simultaneous streaming is limited based on your subscription plan.</p>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 40px;">Account Management</h3>
+          <div class="quick-links">
+            <a href="#" class="quick-link">
+              <i class="fas fa-users"></i>
+              <span>Manage profiles</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-lock"></i>
+              <span>Security settings</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-bell"></i>
+              <span>Notification preferences</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-language"></i>
+              <span>Language settings</span>
+            </a>
+          </div>
+        </section>
+        
+        <!-- Billing Section -->
+        <section id="billing" class="help-section">
+          <h2><i class="fas fa-credit-card"></i> Billing & Payments</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I update my payment method?</div>
+            <div class="faq-answer">
+              <p>To update your payment information:</p>
+              <ol>
+                <li>Sign in to your MyFlix account</li>
+                <li>Go to "Account" and select "Membership & Billing"</li>
+                <li>Click "Update payment method"</li>
+                <li>Enter your new payment details</li>
+                <li>Click "Save" to confirm changes</li>
+              </ol>
+              <p>Your new payment method will be charged for your next billing cycle.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">Can I change my subscription plan?</div>
+            <div class="faq-answer">
+              <p>Yes, you can upgrade or downgrade your plan at any time:</p>
+              <ol>
+                <li>Go to "Account" and select "Change plan"</li>
+                <li>Choose your new plan (Basic, Standard, or Premium)</li>
+                <li>Confirm the change</li>
+              </ol>
+              <p><strong>Note:</strong> Plan changes take effect immediately, and you'll be charged a prorated amount on your next billing date.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I cancel my subscription?</div>
+            <div class="faq-answer">
+              <p>To cancel your MyFlix subscription:</p>
+              <ol>
+                <li>Sign in to your account</li>
+                <li>Go to "Account" and select "Cancel Membership"</li>
+                <li>Follow the prompts to confirm cancellation</li>
+              </ol>
+              <p>You'll continue to have access until the end of your current billing period. You can restart your membership at any time by signing in again.</p>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 40px;">Payment Options</h3>
+          <div class="quick-links">
+            <a href="#" class="quick-link">
+              <i class="fab fa-cc-visa"></i>
+              <span>Credit/Debit Cards</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fab fa-paypal"></i>
+              <span>PayPal</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-gift"></i>
+              <span>Gift Cards</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Mobile Billing</span>
+            </a>
+          </div>
+        </section>
+        
+        <!-- Streaming Help Section -->
+        <section id="streaming" class="help-section">
+          <h2><i class="fas fa-tv"></i> Streaming Help</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">Why can't I find a specific movie or show?</div>
+            <div class="faq-answer">
+              <p>If you can't find a particular title:</p>
+              <ul>
+                <li><strong>Check availability:</strong> Content varies by region due to licensing agreements</li>
+                <li><strong>Search carefully:</strong> Try different search terms or browse relevant categories</li>
+                <li><strong>Check your profile:</strong> Some content may be restricted based on profile maturity settings</li>
+                <li><strong>Title may have been removed:</strong> We regularly update our catalog, and some titles may no longer be available</li>
+              </ul>
+              <p>You can request titles through our <a href="#">content suggestion form</a>.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I download shows to watch offline?</div>
+            <div class="faq-answer">
+              <p>To download content on mobile devices:</p>
+              <ol>
+                <li>Open the MyFlix app on your iOS or Android device</li>
+                <li>Find the show or movie you want to download</li>
+                <li>Look for the download icon (downward arrow) on the details page</li>
+                <li>Select download quality (higher quality takes more storage space)</li>
+                <li>Wait for the download to complete</li>
+              </ol>
+              <p><strong>Note:</strong> Downloads expire after a period of time and some titles aren't available for download due to licensing restrictions.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">How do I improve streaming quality?</div>
+            <div class="faq-answer">
+              <p>For the best streaming experience:</p>
+              <ul>
+                <li><strong>Internet speed:</strong> Ensure you have sufficient bandwidth (5+ Mbps for HD)</li>
+                <li><strong>Wired connection:</strong> Use Ethernet instead of Wi-Fi when possible</li>
+                <li><strong>Close other apps:</strong> Reduce bandwidth usage from other applications</li>
+                <li><strong>Adjust settings:</strong> In account settings, set playback to "High" quality</li>
+                <li><strong>Restart router:</strong> Power cycle your network equipment</li>
+                <li><strong>Update app:</strong> Ensure you're using the latest version of MyFlix</li>
+              </ul>
+            </div>
+          </div>
+          
+          <h3 style="margin-top: 40px;">Streaming Features</h3>
+          <div class="quick-links">
+            <a href="#" class="quick-link">
+              <i class="fas fa-download"></i>
+              <span>Offline viewing</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-closed-captioning"></i>
+              <span>Subtitles & audio</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-child"></i>
+              <span>Kids experience</span>
+            </a>
+            <a href="#" class="quick-link">
+              <i class="fas fa-random"></i>
+              <span>Shuffle play</span>
+            </a>
+          </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="help-section">
+          <h2><i class="fas fa-headset"></i> Contact Support</h2>
+          
+          <p>Can't find what you're looking for? Our support team is available 24/7 to help with any issues.</p>
+          
+          <div class="contact-card">
+            <h3>How would you like to contact us?</h3>
+            <p>Choose the most convenient method for you:</p>
+            
+            <div class="contact-options">
+              
+              
+              <div class="contact-option">
+                <h4><i class="fas fa-phone"></i> Call Us</h4>
+                <p>Speak directly with a support representative. Available 24/7.</p>
+                <p><strong>India:</strong> +91-800-919-1728</p>
+                <p><strong>International:</strong> +1-555-123-4567</p>
+              </div>
+              
+              <div class="contact-option">
+                <h4><i class="fas fa-envelope"></i> Email</h4>
+                <p>Send us a message and we'll respond within 24 hours.</p>
+                <p><strong>Email:</strong> <a href="mailto:privacy@myflix.com" style="color: var(--secondary);">jaydineshnimje@gmail.com</a></p>
+                <button class="back-btn" style="margin-top: 15px; width: 100%;">Email Support</button>
+              </div>
+              
+              <div class="contact-option">
+                
+              
+              </div>
+            </div>
+          </div>
+          
+  
+        
+        </section>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 50px;">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 MyFlix. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Navigation between sections
+    const navItems = document.querySelectorAll('.nav-item');
+    const helpSections = document.querySelectorAll('.help-section');
+    
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Remove active class from all nav items
+        navItems.forEach(navItem => navItem.classList.remove('active'));
+        
+        // Add active class to clicked item
+        item.classList.add('active');
+        
+        // Get target section ID
+        const targetId = item.getAttribute('data-section');
+        
+        // Hide all sections
+        helpSections.forEach(section => {
+          section.classList.remove('visible');
+        });
+        
+        // Show target section
+        document.getElementById(targetId).classList.add('visible');
+        
+        // Smooth scroll to section
+        document.getElementById(targetId).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // FAQ toggle functionality
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        question.classList.toggle('active');
+        const answer = question.nextElementSibling;
+        answer.classList.toggle('show');
+      });
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('search');
+    
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.width = '300px';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      if (!searchInput.value) {
+        searchInput.style.width = '250px';
+      }
+    });
+    
+    // Animate sections when they come into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    helpSections.forEach(section => {
+      if (!section.classList.contains('visible')) {
+        observer.observe(section);
+      }
+    });
+  </script>
+</body>
+</html>

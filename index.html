@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyFlix - Movie Collection</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --primary: #e50914;
+      --dark: #141414;
+      --light: #f3f3f3;
+      --gray: #757575;
+      --dark-gray: #222;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    body {
+      background-color: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+    
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+      padding: 20px 4%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    
+    header.scrolled {
+      background-color: var(--dark);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    .logo {
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .logo span {
+      color: var(--light);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+    
+    .nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    #form {
+      display: flex;
+      align-items: center;
+    }
+    
+    #search {
+      width: 300px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.1);
+      color: var(--light);
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+      backdrop-filter: blur(5px);
+    }
+    
+    #search:focus {
+      background: rgba(255,255,255,0.2);
+      width: 350px;
+    }
+    
+    #search::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+    
+    /* Main Content */
+    main {
+      margin-top: 80px;
+      padding: 40px 4%;
+    }
+    
+    .hero {
+      height: 80vh;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/hero-bg.jpg') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 5%;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+    }
+    
+    .hero-content {
+      max-width: 600px;
+      z-index: 1;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      font-size: 1.1rem;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #f40612;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(109, 109, 110, 0.7);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(109, 109, 110, 0.9);
+      transform: translateY(-3px);
+    }
+    
+    .btn i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    /* Movie Grid */
+    .movie-grid {
+      margin: 40px 0;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title i {
+      margin-right: 15px;
+      color: var(--primary);
+    }
+    
+    .movies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    
+    .movie {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    
+    .movie:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    
+    .movie img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: var(--transition);
+    }
+    
+    .movie:hover img {
+      opacity: 0.4;
+    }
+    
+    .movie-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .movie:hover .movie-info {
+      opacity: 1;
+    }
+    
+    .movie-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .movie-info span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .movie-info .overview {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* Stats Section */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+    
+    .stat-card {
+      background: rgba(30, 30, 30, 0.7);
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      border-top: 3px solid var(--primary);
+      transition: var(--transition);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--light);
+    }
+    
+    /* Featured Content */
+    .movie-content-expanded {
+      background: linear-gradient(to right, #141414, #1a1a1a);
+      padding: 50px 5%;
+      margin: 40px 0;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .content-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .content-header h2 {
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    
+    .content-header h2 i {
+      color: #e50914;
+      margin-right: 15px;
+    }
+    
+    .content-header p {
+      color: #a3a3a3;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .content-card {
+      background: rgba(30, 30, 30, 0.7);
+      padding: 30px;
+      border-radius: 8px;
+      border-top: 3px solid #e50914;
+      transition: all 0.3s ease;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      color: #e50914;
+      margin-bottom: 20px;
+    }
+    
+    .content-card h3 {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    
+    .content-card p {
+      color: #b3b3b3;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .featured-list {
+      list-style: none;
+    }
+    
+    .featured-list li {
+      color: #a3a3a3;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .featured-list li i {
+      color: #e50914;
+      margin-right: 10px;
+      font-size: 0.8rem;
+    }
+    
+    .technical-specs {
+      background: rgba(0,0,0,0.3);
+      padding: 30px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    
+    .technical-specs h3 {
+      color: #fff;
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    
+    .technical-specs h3 i {
+      color: #e50914;
+      margin-right: 10px;
+    }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: rgba(109, 109, 110, 0.1);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .spec-item:hover {
+      background: rgba(109, 109, 110, 0.2);
+    }
+    
+    .spec-item i {
+      font-size: 2rem;
+      color: #e50914;
+      margin-bottom: 15px;
+    }
+    
+    .spec-item span {
+      color: #fff;
+      font-weight: 500;
+      text-align: center;
+    }
+    
+    /* Footer */
+    .site-footer {
+      background-color: var(--dark-gray);
+      padding: 50px 4% 30px;
+      margin-top: 50px;
+    }
+    
+    .footer-top {
+      margin-bottom: 30px;
+    }
+    
+    .footer-top p {
+      font-size: 1.1rem;
+      color: var(--gray);
+    }
+    
+    .footer-top a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-top a:hover {
+      color: var(--primary);
+    }
+    
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .footer-column a {
+      color: var(--gray);
+      text-decoration: none;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-column a:hover {
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+    
+    .footer-column a i {
+      margin-right: 10px;
+      font-size: 0.8rem;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .social-links a {
+      color: var(--gray);
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      color: var(--primary);
+      transform: translateY(-5px);
+    }
+    
+    /* Loading Animation */
+    .loader {
+      display: none;
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 30px auto;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      header {
+        flex-direction: column;
+        padding: 15px 4%;
+      }
+      
+      .logo {
+        margin-bottom: 15px;
+      }
+      
+      .nav-links {
+        margin-bottom: 15px;
+      }
+      
+      #search {
+        width: 100%;
+      }
+      
+      #search:focus {
+        width: 100%;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        height: 60vh;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        justify-content: center;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .specs-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="main-header">
+    <div class="logo">MY<span>FLIX</span></div>
+    
+    <nav class="nav-links">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>  
+      <a href="movies.html"><i class="fas fa-film"></i> Movies</a>
+      <a href="newpopular.html"><i class="fas fa-star"></i> New & Popular</a>
+      <a href="login.html" class="profile-icon">Login</a>
+      <a href="profile.html" class="profile-icon"><i class="fas fa-user"></i> Profile</a>
+    </nav>
+    
+    <form id="form">
+      <input type="text" id="search" class="search" placeholder="Search for movies...">
+    </form>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Explore Our Movie Collection</h1>
+        <p>Discover thousands of movies across all genres. All available offline for your viewing pleasure.</p>
+        <div class="hero-buttons">
+          <a href="#trending" class="btn btn-primary"><i class="fas fa-fire"></i> Trending Now</a>
+          <a href="#top-rated" class="btn btn-secondary"><i class="fas fa-trophy"></i> Top Rated</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-container">
+      <div class="stat-card">
+        <div class="stat-number" id="total-movies">0</div>
+        <div class="stat-label">Total Movies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="action-movies">0</div>
+        <div class="stat-label">Action Movies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="drama-movies">0</div>
+        <div class="stat-label">Drama Movies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="avg-rating">0</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </section>
+
+    <section class="movie-content-expanded">
+      <div class="content-header">
+        <h2><i class="fas fa-crown"></i> Premium Movie Experience</h2>
+        <p>Explore our vast collection with these featured categories</p>
+      </div>
+      
+      <div class="content-grid">
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-award"></i></div>
+          <h3>Oscar Winners</h3>
+          <p>Every Best Picture winner from the past 50 years, restored in 4K HDR quality with exclusive director commentaries.</p>
+          <ul class="featured-list">
+            <li><i class="fas fa-check"></i> 120+ Academy Award films</li>
+            <li><i class="fas fa-check"></i> Behind-the-scenes footage</li>
+            <li><i class="fas fa-check"></i> Historical context videos</li>
+          </ul>
+        </div>
+        
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-globe-asia"></i></div>
+          <h3>International Cinema</h3>
+          <p>The largest collection of foreign language films with perfect subtitles in 30+ languages.</p>
+          <ul class="featured-list">
+            <li><i class="fas fa-check"></i> 5,000+ international titles</li>
+            <li><i class="fas fa-check"></i> Cultural guide for each film</li>
+            <li><i class="fas fa-check"></i> Original language audio tracks</li>
+          </ul>
+        </div>
+        
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-robot"></i></div>
+          <h3>Sci-Fi Vault</h3>
+          <p>From classic space operas to mind-bending time travel stories - the ultimate sci-fi collection.</p>
+          <ul class="featured-list">
+            <li><i class="fas fa-check"></i> 3,200+ sci-fi titles</li>
+            <li><i class="fas fa-check"></i> Scientific accuracy ratings</li>
+            <li><i class="fas fa-check"></i> Tech behind the effects</li>
+          </ul>
+        </div>
+        
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-theater-masks"></i></div>
+          <h3>Cult Classics</h3>
+          <p>The weird, wonderful films that developed devoted followings over the years.</p>
+          <ul class="featured-list">
+            <li><i class="fas fa-check"></i> Midnight movie collection</li>
+            <li><i class="fas fa-check"></i> Director and fan commentaries</li>
+            <li><i class="fas fa-check"></i> Original theatrical trailers</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="technical-specs">
+        <h3><i class="fas fa-tv"></i> Premium Viewing Experience</h3>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <i class="fas fa-expand"></i>
+            <span>4K Ultra HD</span>
+          </div>
+          <div class="spec-item">
+            <i class="fas fa-volume-up"></i>
+            <span>Dolby Atmos</span>
+          </div>
+          <div class="spec-item">
+            <i class="fas fa-closed-captioning"></i>
+            <span>100+ Subtitle Languages</span>
+          </div>
+          <div class="spec-item">
+            <i class="fas fa-language"></i>
+            <span>40+ Dubbed Languages</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="movie-grid" id="trending">
+      <h2 class="section-title"><i class="fas fa-fire"></i> Trending Now</h2>
+      <div class="movies" id="trending-movies">
+        <!-- Movies loaded from local data -->
+      </div>
+    </section>
+    
+    <section class="movie-grid" id="top-rated">
+      <h2 class="section-title"><i class="fas fa-trophy"></i> Top Rated</h2>
+      <div class="movies" id="top-rated-movies">
+        <!-- Movies loaded from local data -->
+      </div>
+    </section>
+    
+    <div class="loader" id="loader"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <p>All movie data available offline</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-column">
+        <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
+        <a href="helpcentre.html"><i class="fas fa-life-ring"></i> Help Centre</a>
+      </div>
+      <div class="footer-column">
+        <a href="termsofuse.html"><i class="fas fa-file-contract"></i> Terms of Use</a>
+        <a href="privacy.html"><i class="fas fa-lock"></i> Privacy</a>
+      </div>
+      <div class="footer-column">
+        <a href="legalnotices.html"><i class="fas fa-gavel"></i> Legal Notices</a>
+        <a href="contactus.html"><i class="fas fa-envelope"></i> Contact Us</a>
+      </div>
+    </div>  
+    <div class="footer-bottom">
+      <p>&copy; 2025 MyFlix created by JAY. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Local movie database for offline use
+    const localMovies = [
+      {
+        id: 1,
+        title: "The Shawshank Redemption",
+        poster_path: "images/172222-1240x2618-phone-hd-the-shawshank-redemption-background-image.jpg",
+        vote_average: 9.3,
+        overview: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+        release_date: "1994-09-23",
+        genre: "Drama"
+      },
+      {
+        id: 2,
+        title: "The Godfather",
+        poster_path: "images/174070-1640x2258-iphone-hd-the-godfather-background-image.jpg",
+        vote_average: 9.2,
+        overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+        release_date: "1972-03-24",
+        genre: "Crime"
+      },
+      {
+        id: 3,
+        title: "The Dark Knight",
+        poster_path: "images/37797-3840x2160-desktop-4k-the-dark-knight-wallpaper-image.jpg",
+        vote_average: 9.0,
+        overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+        release_date: "2008-07-18",
+        genre: "Action"
+      },
+      {
+        id: 4,
+        title: "Pulp Fiction",
+        poster_path: "images/176660-1350x2400-phone-hd-pulp-fiction-background.jpg",
+        vote_average: 8.9,
+        overview: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+        release_date: "1994-10-14",
+        genre: "Crime"
+      },
+      {
+        id: 5,
+        title: "Fight Club",
+        poster_path: "images/34465-1400x2400-mobile-hd-fight-club-wallpaper.jpg",
+        vote_average: 8.8,
+        overview: "An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.",
+        release_date: "1999-10-15",
+        genre: "Drama"
+      },
+      {
+        id: 6,
+        title: "Inception",
+        poster_path: "images/304867-1536x2732-iphone-hd-inception-background-image.jpg",
+        vote_average: 8.8,
+        overview: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+        release_date: "2010-07-16",
+        genre: "Action"
+      },
+      {
+        id: 7,
+        title: "The Matrix",
+        poster_path: "images/307478-3840x2160-desktop-4k-the-matrix-wallpaper-image.jpg",
+        vote_average: 8.7,
+        overview: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+        release_date: "1999-03-31",
+        genre: "Action"
+      },
+      {
+        id: 8,
+        title: "Goodfellas",
+        poster_path: "images/37636-1920x1080-desktop-full-hd-goodfellas-wallpaper.jpg",
+        vote_average: 8.7,
+        overview: "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito in the Italian-American crime syndicate.",
+        release_date: "1990-09-19",
+        genre: "Crime"
+      },
+      
+    ];
+
+    // Initialize the page with local movie data
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load trending movies
+      const trendingMovies = localMovies.slice(0, 6);
+      showMoviesInSection(trendingMovies, 'trending-movies');
+      
+      // Load top rated movies (sorted by rating)
+      const topRatedMovies = [...localMovies].sort((a, b) => b.vote_average - a.vote_average).slice(0, 6);
+      showMoviesInSection(topRatedMovies, 'top-rated-movies');
+      
+      // Update stats
+      updateStats();
+      
+      // Set up search functionality
+      document.getElementById('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        
+        if (searchTerm) {
+          const filteredMovies = localMovies.filter(movie => 
+            movie.title.toLowerCase().includes(searchTerm)
+          );
+          showMoviesInSection(filteredMovies, 'trending-movies');
+        } else {
+          showMoviesInSection(localMovies.slice(0, 6), 'trending-movies');
+        }
+      });
+    });
+
+    function showMoviesInSection(movies, sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      
+      section.innerHTML = '';
+      
+      if (movies.length === 0) {
+        section.innerHTML = '<p>No movies found matching your search.</p>';
+        return;
+      }
+      
+      movies.forEach(movie => {
+        const { title, poster_path, vote_average, overview, id } = movie;
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
+        movieEl.innerHTML = `
+          <img src="${poster_path}" alt="${title}" onerror="this.src='images/placeholder.jpg'">
+          <div class="movie-info">
+            <h3>${title}</h3>
+            <span class="${getColor(vote_average)}">${vote_average}</span>
+            <div class="overview">${overview}</div>
+          </div>
+        `;
+        section.appendChild(movieEl);
+      });
+    }
+    
+    function updateStats() {
+      // Total movies
+      document.getElementById('total-movies').textContent = localMovies.length;
+      
+      // Action movies
+      const actionMovies = localMovies.filter(movie => movie.genre === 'Action').length;
+      document.getElementById('action-movies').textContent = actionMovies;
+      
+      // Drama movies
+      const dramaMovies = localMovies.filter(movie => movie.genre === 'Drama').length;
+      document.getElementById('drama-movies').textContent = dramaMovies;
+      
+      // Average rating
+      const totalRating = localMovies.reduce((sum, movie) => sum + movie.vote_average, 0);
+      const avgRating = (totalRating / localMovies.length).toFixed(1);
+      document.getElementById('avg-rating').textContent = avgRating;
+    }
+    
+    function getColor(vote) {
+      if (vote >= 8) {
+        return 'green';
+      } else if (vote >= 5) {
+        return 'orange';
+      } else {
+        return 'red';
+      }
+    }
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('main-header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFlix - Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #e50914; /* Netflix Red */
+            --dark: #141414; /* Dark background */
+            --light: #f3f3f3; /* Light text */
+            --gray: #757575; /* Gray text */
+            --dark-gray: #222; /* Darker gray for footer */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            /* Optional: Add a background image with overlay for Netflix feel */
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://assets.nflxext.com/ffe/siteui/vlv3/51c1d7f0-ca76-4be3-979f-5f2adbcbab5d/3a103c20-a681-4235-9777-2cf3ac701833/IN-en-20240610-popsignuptwoweeks-perspective_alpha_website_large.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Header Styles - Copied from index.html / login.html */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: var(--dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo span {
+            color: var(--light);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        #form { /* Search form, kept for consistency but hidden for register page */
+            display: none; /* Hide search bar on register page */
+        }
+        
+        /* Main Content & Register Container Styling */
+        main {
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+            margin-top: 80px; /* To account for fixed header */
+            padding: 40px 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-container { /* Renamed from .login-container for clarity */
+            max-width: 450px;
+            width: 100%;
+            padding: 50px;
+            background: rgba(0, 0, 0, 0.75); /* Darker, less transparent background */
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .register-container .logo { /* Override text-align for the logo inside container */
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .register-container h2 { /* Added for explicit "Sign Up" heading */
+            font-size: 2.5rem;
+            color: var(--light);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: none; /* Hide labels, use placeholders for Netflix style */
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            background: #333;
+            color: var(--light);
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: #444;
+        }
+
+        .form-control::placeholder {
+            color: var(--gray);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--light);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #f40612; /* Slightly darker red on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        .links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0; /* More space for divider */
+            position: relative;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%; /* Adjust width for visual balance */
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 50px; /* Slightly larger social buttons */
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem; /* Larger icons */
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .facebook {
+            background: #3b5998;
+        }
+
+        .google {
+            background: #db4437;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Alert Messages - Reused from login.html */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: none;
+            opacity: 0; /* Initial opacity for fade-in */
+            transition: opacity 0.5s ease-out;
+        }
+
+        .alert-success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .alert-error {
+            background: rgba(231, 29, 54, 0.2);
+            border: 1px solid #e71d36;
+            color: #e71d36;
+        }
+
+        /* Footer Styles - Copied from login.html */
+        .site-footer {
+            background-color: transparent;
+            padding: 50px 4% 30px;
+            margin-top: auto; /* Push footer to the bottom */
+            text-align: center;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .footer-bottom .owner-name {
+            color: var(--light);
+            font-weight: bold;
+        }
+
+        /* Responsive Styles - Reused from login.html */
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                padding: 15px 4%;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-links {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide navigation links on smaller screens */
+            }
+            
+            .register-container {
+                margin: 30px auto;
+                padding: 30px;
+            }
+            
+            .register-container h2 {
+                font-size: 2rem;
+            }
+
+            .form-control, .btn {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="logo">MY<span>FLIX</span></div>
+        <nav class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a> 
+            <a href="login.html" class="profile-icon">Login</a>
+            <a href="profile.html" class="profile-icon"><i class="fas fa-user"></i> Profile</a>
+        </nav>
+        <form id="form">
+            <input type="text" id="search" class="search" placeholder="Search for movies...">
+        </form>
+    </header>
+
+    <main>
+        <div class="register-container">
+            <h2>Sign Up</h2>
+
+            <div id="alert" class="alert" style="display: none;"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="Full Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Email Address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" class="form-control" placeholder="Password (min 6 characters)" required>
+                        <i class="fas fa-eye toggle-password" data-target="password"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                        <i class="fas fa-eye toggle-password" data-target="confirmPassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Register</button>
+
+                <div class="links">
+                    <a href="login.html">Already have an account? Login here.</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2025 MyFlix created by <span class="owner-name"><u>JAY DINESH NIMJE</u></span>. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle password visibility for multiple fields
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const passwordInput = document.getElementById(targetId);
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('alert');
+            alertDiv.textContent = message;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'block';
+            alertDiv.style.opacity = '1';
+
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 500); // Wait for fade out to complete before hiding
+            }, 3000);
+        }
+
+        // Handle form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Client-side validation
+            if (!fullName || !email || !password || !confirmPassword) {
+                showAlert('Please fill in all fields.', 'error');
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showAlert('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters long.', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match.', 'error');
+                return;
+            }
+
+            // In a real application, you would send this data to a server for registration
+            // For this demo, we'll simulate a successful registration by storing in local storage
+            localStorage.setItem('username', fullName); // Storing full name as username for simplicity
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password); // In a real app, hash this!
+
+            showAlert('Registration successful! Redirecting to login...', 'success');
+
+            // Simulate server request delay and redirect
+            setTimeout(() => {
+                window.location.href = 'login.html'; // Redirect to login.html after successful registration
+            }, 2000);
+        });
+
+        // Social login handlers (placeholders)
+        document.querySelector('.facebook').addEventListener('click', () => {
+            showAlert('Facebook registration is a placeholder.', 'success');
+        });
+
+        document.querySelector('.google').addEventListener('click', () => {
+            showAlert('Google registration is a placeholder.', 'success');
+        });
+
+        document.querySelector('.twitter').addEventListener('click', () => {
+            showAlert('Twitter registration is a placeholder.', 'success');
+        });
+
+        // Header scroll effect (optional for registration page)
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed Test - MyFlix</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e50914;
+      --secondary: #0071eb;
+      --dark: #141414;
+      --light: #f3f3f3;
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      color: var(--primary);
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .search {
+      padding: 10px 15px;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      width: 250px;
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      transition: var(--transition);
+    }
+    
+    main {
+      padding: 120px 50px 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+    
+    .speedtest-container {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .speedtest-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .test-controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    
+    .start-btn {
+      background: linear-gradient(135deg, var(--primary), #c11119);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    .start-btn i {
+      margin-right: 10px;
+    }
+    
+    .start-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(229, 9, 20, 0.6);
+    }
+    
+    .start-btn:active {
+      transform: translateY(1px);
+    }
+    
+    .start-btn.running {
+      background: linear-gradient(135deg, var(--secondary), #0066d4);
+      box-shadow: 0 5px 15px rgba(0, 113, 235, 0.4);
+    }
+    
+    .results-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .result-card {
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .result-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+    
+    .result-card:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .result-card h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    
+    .result-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 15px 0;
+      position: relative;
+    }
+    
+    .result-unit {
+      font-size: 1rem;
+      color: #aaa;
+    }
+    
+    .gauge-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .gauge {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .gauge-base {
+      fill: none;
+      stroke: rgba(255,255,255,0.1);
+      stroke-width: 15;
+      stroke-linecap: round;
+    }
+    
+    .gauge-progress {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 15;
+      stroke-linecap: round;
+      stroke-dasharray: 565;
+      stroke-dashoffset: 565;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 1s ease-out;
+    }
+    
+    .gauge-center {
+      fill: var(--dark);
+    }
+    
+    .gauge-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    
+    .quality-indicator {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    .quality-level {
+      padding: 8px 15px;
+      border-radius: 20px;
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 0.9rem;
+      margin: 0 5px;
+      transition: var(--transition);
+    }
+    
+    .quality-level.active {
+      background-color: var(--primary);
+      transform: scale(1.05);
+    }
+    
+    .tips-section {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 40px;
+    }
+    
+    .tips-section h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .tip-card {
+      background: rgba(40, 40, 40, 0.6);
+      border-radius: 10px;
+      padding: 20px;
+      transition: var(--transition);
+    }
+    
+    .tip-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .tip-card h3 {
+      color: var(--secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .tip-card h3 i {
+      margin-right: 10px;
+      color: var(--primary);
+    }
+    
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .back-btn:hover {
+      background-color: #f40612;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    footer {
+      background-color: #000;
+      padding: 30px 50px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .spin {
+      animation: spin 1.5s linear infinite;
+    }
+    
+    .hidden {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyFlix</div>
+    <form id="form">
+      <input type="text" id="search" class="search" placeholder="Search for movies...">
+    </form>
+  </header>
+
+  <main>
+    <h1>Internet Speed Test</h1>
+    <p class="subtitle">Check your connection speed to optimize your MyFlix streaming experience</p>
+    
+    <div class="speedtest-container">
+      <div class="test-controls">
+        <button id="startTest" class="start-btn pulse">
+          <i class="fas fa-play"></i> Start Speed Test
+        </button>
+      </div>
+      
+      <div class="gauge-container">
+        <svg class="gauge" viewBox="0 0 200 200">
+          <circle class="gauge-base" cx="100" cy="100" r="90"></circle>
+          <circle class="gauge-progress" cx="100" cy="100" r="90"></circle>
+          <circle class="gauge-center" cx="100" cy="100" r="75"></circle>
+        </svg>
+        <div class="gauge-text" id="speedValue">0</div>
+      </div>
+      
+      <div class="results-container">
+        <div class="result-card hidden" id="downloadCard">
+          <h3><i class="fas fa-download"></i> Download</h3>
+          <div class="result-value"><span id="downloadSpeed">0</span> <span class="result-unit">Mbps</span></div>
+          <p>How fast data comes to your device</p>
+        </div>
+        
+        <div class="result-card hidden" id="uploadCard">
+          <h3><i class="fas fa-upload"></i> Upload</h3>
+          <div class="result-value"><span id="uploadSpeed">0</span> <span class="result-unit">Mbps</span></div>
+          <p>How fast data goes from your device</p>
+        </div>
+        
+        <div class="result-card hidden" id="pingCard">
+          <h3><i class="fas fa-bolt"></i> Ping</h3>
+          <div class="result-value"><span id="pingTime">0</span> <span class="result-unit">ms</span></div>
+          <p>Response time of your connection</p>
+        </div>
+      </div>
+      
+      <div class="quality-indicator">
+        <div class="quality-level" id="qualitySD">SD (3+ Mbps)</div>
+        <div class="quality-level" id="qualityHD">HD (5+ Mbps)</div>
+        <div class="quality-level" id="qualityUHD">UHD (25+ Mbps)</div>
+      </div>
+    </div>
+    
+    <div class="tips-section">
+      <h2><i class="fas fa-lightbulb"></i> Streaming Quality Tips</h2>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <h3><i class="fas fa-wifi"></i> Improve Your Connection</h3>
+          <p>Move closer to your router or connect via Ethernet cable for more stable speeds. Reduce the number of devices using your network during streaming.</p>
+        </div>
+        
+        <div class="tip-card">
+          <h3><i class="fas fa-cog"></i> Adjust Playback Settings</h3>
+          <p>In your MyFlix account settings, you can manually set your data usage preference to match your internet speed capabilities.</p>
+        </div>
+        
+        <div class="tip-card">
+          <h3><i class="fas fa-sync-alt"></i> Restart Your Equipment</h3>
+          <p>Power cycle your modem and router by unplugging them for 30 seconds. This often resolves temporary speed issues.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center;">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 MyFlix. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Speed Test Simulation
+    const startBtn = document.getElementById('startTest');
+    const downloadSpeed = document.getElementById('downloadSpeed');
+    const uploadSpeed = document.getElementById('uploadSpeed');
+    const pingTime = document.getElementById('pingTime');
+    const speedValue = document.getElementById('speedValue');
+    const gaugeProgress = document.querySelector('.gauge-progress');
+    const downloadCard = document.getElementById('downloadCard');
+    const uploadCard = document.getElementById('uploadCard');
+    const pingCard = document.getElementById('pingCard');
+    const qualitySD = document.getElementById('qualitySD');
+    const qualityHD = document.getElementById('qualityHD');
+    const qualityUHD = document.getElementById('qualityUHD');
+    
+    let testRunning = false;
+    
+    // Show hidden elements
+    document.querySelectorAll('.hidden').forEach(el => {
+      el.classList.add('visible');
+    });
+    
+    startBtn.addEventListener('click', function() {
+      if (testRunning) return;
+      
+      testRunning = true;
+      startBtn.innerHTML = '<i class="fas fa-sync-alt spin"></i> Testing...';
+      startBtn.classList.remove('pulse');
+      startBtn.classList.add('running');
+      
+      // Reset values
+      downloadSpeed.textContent = '0';
+      uploadSpeed.textContent = '0';
+      pingTime.textContent = '0';
+      speedValue.textContent = '0';
+      gaugeProgress.style.strokeDashoffset = '565';
+      
+      // Reset quality indicators
+      [qualitySD, qualityHD, qualityUHD].forEach(el => el.classList.remove('active'));
+      
+      // Simulate ping test
+      setTimeout(() => {
+        pingTime.textContent = '24';
+        
+        // Simulate download test
+        simulateSpeedTest('download', 0, () => {
+          // Simulate upload test after download completes
+          simulateSpeedTest('upload', 0, () => {
+            testRunning = false;
+            startBtn.innerHTML = '<i class="fas fa-redo"></i> Test Again';
+            startBtn.classList.remove('running');
+            startBtn.classList.add('pulse');
+            
+            // Determine quality level
+            const dlSpeed = parseFloat(downloadSpeed.textContent);
+            if (dlSpeed >= 25) {
+              qualityUHD.classList.add('active');
+            } else if (dlSpeed >= 5) {
+              qualityHD.classList.add('active');
+            } else if (dlSpeed >= 3) {
+              qualitySD.classList.add('active');
+            }
+          });
+        });
+      }, 1000);
+    });
+    
+    function simulateSpeedTest(type, current, callback) {
+      const maxSpeed = type === 'download' ? getRandomSpeed(50, 200) : getRandomSpeed(5, 50);
+      const increment = maxSpeed / 100;
+      const targetElement = type === 'download' ? downloadSpeed : uploadSpeed;
+      
+      if (current < maxSpeed) {
+        current += increment;
+        const displaySpeed = Math.min(Math.round(current * 10) / 10, maxSpeed);
+        targetElement.textContent = displaySpeed;
+        
+        // Update gauge (only for download)
+        if (type === 'download') {
+          speedValue.textContent = displaySpeed;
+          const progress = 565 - (565 * (current / maxSpeed));
+          gaugeProgress.style.strokeDashoffset = progress;
+        }
+        
+        setTimeout(() => simulateSpeedTest(type, current, callback), 20);
+      } else {
+        targetElement.textContent = maxSpeed.toFixed(1);
+        if (type === 'download' && callback) callback();
+      }
+    }
+    
+    function getRandomSpeed(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    // Search functionality
+    const searchInput = document.getElementById('search');
+    
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.width = '300px';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      if (!searchInput.value) {
+        searchInput.style.width = '250px';
+      }
+    });
+  </script>
+</body>
+</html>
